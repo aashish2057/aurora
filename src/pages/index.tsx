@@ -1,10 +1,11 @@
 import Head from "next/head"
 import Link from "next/link"
-
+import { FC } from "react"
 import { siteConfig } from "@/config/site"
 import { Layout } from "@/components/layout"
 import { buttonVariants } from "@/components/ui/button"
 import { pb } from "./api/pocketbase/pocketbase"
+import { Transactions } from "@/types/transactions"
 
 export async function getServerSideProps() {
   const response = await fetch("http://127.0.0.1:8090/api/collections/transactions/records")
@@ -12,7 +13,7 @@ export async function getServerSideProps() {
   return {props: {data}}
 }
 
-export default function IndexPage({ data }) {
+export default function IndexPage({ data }: Transactions) {
   console.log(data)
   return (
     <Layout>
