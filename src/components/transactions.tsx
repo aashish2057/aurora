@@ -12,9 +12,10 @@ export default function TransactionsScroll({ data }: Transactions) {
             <ScrollArea className="h-96 rounded-md border border-slate-100 dark:border-slate-700">
                 <div className="p-4">
                     <div className="pb-5">
-                        <div className="grid grid-cols-3 text-center">
+                        <div className="grid grid-cols-4 text-center">
                             <div>Date</div>
                             <div>Merchant</div>
+                            <div>Category</div>
                             <div>Amount</div>
                         </div>
                     <div className="w-full border-b-4 border-b-slate-200 bg-white dark:border-b-slate-700 dark:bg-slate-900"></div>
@@ -23,10 +24,16 @@ export default function TransactionsScroll({ data }: Transactions) {
                         <React.Fragment>
                             <div className="text-sm" key={purchase.id}>
                                 <div>
-                                    <div className="grid grid-cols-3 text-center">
+                                    <div className="grid grid-cols-4 text-center">
                                         <div>{weekday[new Date(purchase.date).getDay()]} {new Date(purchase.date).getMonth() + 1}/{new Date(purchase.date).getDate()}</div>
                                         <div className="">{purchase.merchant_name}</div>
-                                        <div className="">{purchase.amount}</div>
+                                        <div>{purchase.category[0]}</div>
+                                        <div>
+                                            {Math.sign(purchase.amount) === -1 &&   <div className="font-semibold text-green-600">${purchase.amount}</div>
+                                            }
+                                            {Math.sign(purchase.amount) === 1 &&   <div className="font-semibold">${purchase.amount}</div>
+                                            }
+                                        </div>
                                     </div>
                                 </div>
                             </div>
