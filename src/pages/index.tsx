@@ -1,11 +1,8 @@
 import Head from "next/head"
-import Link from "next/link"
-import { FC } from "react"
-import { siteConfig } from "@/config/site"
+
 import { Layout } from "@/components/layout"
-import { buttonVariants } from "@/components/ui/button"
-import { pb } from "./api/pocketbase/pocketbase"
 import { Transactions } from "@/types/transactions"
+import TransactionsScroll from "@/components/transactions"
 
 export async function getServerSideProps() {
   const response = await fetch("http://127.0.0.1:8090/api/collections/transactions/records")
@@ -23,6 +20,7 @@ export default function IndexPage({ data }: Transactions) {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
+      <TransactionsScroll data={data}></TransactionsScroll>
     </Layout>
   )
 }
