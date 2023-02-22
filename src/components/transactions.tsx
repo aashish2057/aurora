@@ -4,7 +4,7 @@ import { ScrollArea } from "@/components/ui/scroll-area"
 import { Separator } from "@/components/ui/separator"
 import { Transactions } from "@/types/transactions"
 
-export default function TransactionsScroll({ data }: Transactions) {
+export function TransactionsScroll({ data }: Transactions) {
     const weekday = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"]
     return (
         <>
@@ -29,9 +29,9 @@ export default function TransactionsScroll({ data }: Transactions) {
                                         <div className="">{purchase.merchant_name}</div>
                                         <div>{purchase.category[0]}</div>
                                         <div>
-                                            {Math.sign(purchase.amount) === -1 &&   <div className="font-semibold text-green-600">${purchase.amount}</div>
+                                            {Math.sign(purchase.amount) === -1 &&   <div className="font-bold text-green-600">${purchase.amount}</div>
                                             }
-                                            {Math.sign(purchase.amount) === 1 &&   <div className="font-semibold">${purchase.amount}</div>
+                                            {Math.sign(purchase.amount) === 1 &&   <div className="font-bold">${purchase.amount}</div>
                                             }
                                         </div>
                                     </div>

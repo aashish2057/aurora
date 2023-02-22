@@ -2,7 +2,8 @@ import Head from "next/head"
 
 import { Layout } from "@/components/layout"
 import { Transactions } from "@/types/transactions"
-import TransactionsScroll from "@/components/transactions"
+import { TransactionsScroll } from "@/components/transactions"
+import { SpendingChart } from "@/components/spendingChart"
 
 export async function getServerSideProps() {
   const response = await fetch("http://127.0.0.1:8090/api/collections/transactions/records?perPage=100")
@@ -11,7 +12,6 @@ export async function getServerSideProps() {
 }
 
 export default function IndexPage({ data }: Transactions) {
-  console.log(data)
   return (
     <Layout>
       <Head>
@@ -20,6 +20,7 @@ export default function IndexPage({ data }: Transactions) {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
+      <SpendingChart data={data}/>
       <TransactionsScroll data={data} />
     </Layout>
   )
