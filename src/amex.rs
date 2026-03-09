@@ -6,11 +6,11 @@ use std::path::Path;
 #[derive(Debug, Deserialize)]
 pub struct AmexGoldFormat {
     #[serde(rename = "Date")]
-    _date: String,
+    date: String,
     #[serde(rename = "Description")]
-    _description: String,
+    description: String,
     #[serde(rename = "Amount")]
-    _amount: f32,
+    amount: f32,
     #[serde(rename = "Extended Details")]
     _extended_details: String,
     #[serde(rename = "Appears On Your Statement As")]
@@ -26,17 +26,17 @@ pub struct AmexGoldFormat {
     #[serde(rename = "Reference")]
     _reference: String,
     #[serde(rename = "Category")]
-    _category: String,
+    category: String,
 }
 
 impl From<AmexGoldFormat> for Transaction {
     fn from(row: AmexGoldFormat) -> Self {
         Transaction {
-            date: row._date,
+            date: row.date,
             account: Account::Amex(AmexAccount::Gold),
-            description: row._description,
-            category: row._category,
-            amount: row._amount,
+            description: row.description,
+            category: row.category,
+            amount: row.amount,
         }
     }
 }

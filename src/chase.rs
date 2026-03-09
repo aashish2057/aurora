@@ -8,11 +8,11 @@ pub struct ChaseDepositAccountRow {
     #[serde(rename = "Details")]
     _details: String,
     #[serde(rename = "Posting Date")]
-    _posting_date: String,
+    posting_date: String,
     #[serde(rename = "Description")]
-    _description: String,
+    description: String,
     #[serde(rename = "Amount")]
-    _amount: f32,
+    amount: f32,
     #[serde(rename = "Type")]
     _type: String,
     #[serde(rename = "Balance")]
@@ -24,17 +24,17 @@ pub struct ChaseDepositAccountRow {
 #[derive(Debug, Deserialize)]
 pub struct ChaseCreditCardAccountRow {
     #[serde(rename = "Transaction Date")]
-    _transaction_date: String,
+    transaction_date: String,
     #[serde(rename = "Post Date")]
     _post_date: String,
     #[serde(rename = "Description")]
-    _description: String,
+    description: String,
     #[serde(rename = "Category")]
-    _category: Option<String>,
+    category: Option<String>,
     #[serde(rename = "Type")]
     _type: String,
     #[serde(rename = "Amount")]
-    _amount: f32,
+    amount: f32,
     #[serde(rename = "Memo")]
     _memo: Option<String>,
 }
@@ -42,11 +42,11 @@ pub struct ChaseCreditCardAccountRow {
 impl From<ChaseDepositAccountRow> for Transaction {
     fn from(row: ChaseDepositAccountRow) -> Self {
         Transaction {
-            date: row._posting_date,
+            date: row.posting_date,
             account: Account::Chase(ChaseAccount::Deposit1199),
-            description: row._description,
+            description: row.description,
             category: String::new(),
-            amount: row._amount,
+            amount: row.amount,
         }
     }
 }
@@ -54,11 +54,11 @@ impl From<ChaseDepositAccountRow> for Transaction {
 impl From<ChaseCreditCardAccountRow> for Transaction {
     fn from(row: ChaseCreditCardAccountRow) -> Self {
         Transaction {
-            date: row._transaction_date,
+            date: row.transaction_date,
             account: Account::Chase(ChaseAccount::CreditCard9055),
-            description: row._description,
-            category: row._category.unwrap_or_default(),
-            amount: row._amount,
+            description: row.description,
+            category: row.category.unwrap_or_default(),
+            amount: row.amount,
         }
     }
 }
