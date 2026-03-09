@@ -1,4 +1,5 @@
 use crate::csv_utils::parse_csv;
+use crate::transaction::{Account, CapitalOneAccount, Transaction};
 use serde::Deserialize;
 use std::path::Path;
 
@@ -20,6 +21,18 @@ pub struct CapitalOneCreditCardAccountRow {
     _credit: Option<f32>,
 }
 
+impl From<CapitalOneCreditCardAccountRow> for Transaction {
+    fn from(row: CapitalOneCreditCardAccountRow) -> Self {
+        Transaction {
+            date: row._transaction_date,
+            account: Account::CapitalOne(CapitalOneAccount::VentureX),
+            description: row._description,
+            category: row._category,
+            amount: row._debit.unwrap_or(0.0),
+        }
+    }
+}
+
 #[derive(Debug, Deserialize)]
 pub struct CapitalOneDepositAccountRow {
     #[serde(rename = "Account Number")]
@@ -36,8 +49,12 @@ pub struct CapitalOneDepositAccountRow {
     _balance: f32,
 }
 
-pub fn parse_venture_x(path: &Path) -> Result<Vec<CapitalOneCreditCardAccountRow>, csv::Error> {
-    parse_csv(path)
+pub fn parse_venture_x(path: &Path) -> Result<Vec<Transaction>, csv::Error> {
+    parse_csv::<CapitalOneCreditCardAccountRow>(path).map(|rows| {
+        rows.into_iter()
+            .map(Transaction::from)
+            .collect::<Vec<Transaction>>()
+    })
 }
 
 pub fn parse_360_checking(path: &Path) -> Result<Vec<CapitalOneDepositAccountRow>, csv::Error> {

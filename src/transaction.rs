@@ -5,7 +5,7 @@ pub struct Transaction {
     pub date: String,
     pub account: Account,
     pub description: String,
-    pub category: Option<String>,
+    pub category: String,
     pub amount: f32,
 }
 
