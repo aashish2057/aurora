@@ -36,25 +36,21 @@ pub struct CapitalOneDepositAccountRow {
     _balance: f32,
 }
 
-pub(crate) fn parse_venture_x(
-    path: &Path,
-) -> Result<Vec<CapitalOneCreditCardAccountRow>, csv::Error> {
+pub fn parse_venture_x(path: &Path) -> Result<Vec<CapitalOneCreditCardAccountRow>, csv::Error> {
     parse_csv(path)
 }
 
-pub(crate) fn parse_360_checking(
-    path: &Path,
-) -> Result<Vec<CapitalOneDepositAccountRow>, csv::Error> {
+pub fn parse_360_checking(path: &Path) -> Result<Vec<CapitalOneDepositAccountRow>, csv::Error> {
     parse_csv(path)
 }
 
-pub(crate) fn parse_aashish_rainy_day(
+pub fn parse_aashish_rainy_day(
     path: &Path,
 ) -> Result<Vec<CapitalOneDepositAccountRow>, csv::Error> {
     parse_csv(path)
 }
 
-pub(crate) fn parse_parents_rainy_day(
+pub fn parse_parents_rainy_day(
     path: &Path,
 ) -> Result<Vec<CapitalOneDepositAccountRow>, csv::Error> {
     parse_csv(path)

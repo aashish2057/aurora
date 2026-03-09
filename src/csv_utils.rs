@@ -1,7 +1,7 @@
 use serde::de::DeserializeOwned;
 use std::path::Path;
 
-pub(crate) fn parse_csv<T>(path: &Path) -> Result<Vec<T>, csv::Error>
+pub fn parse_csv<T>(path: &Path) -> Result<Vec<T>, csv::Error>
 where
     T: DeserializeOwned,
 {

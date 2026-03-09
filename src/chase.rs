@@ -38,10 +38,10 @@ pub struct ChaseCreditCardAccountRow {
     _memo: Option<String>,
 }
 
-pub(crate) fn parse_1199(path: &Path) -> Result<Vec<ChaseDepositAccountRow>, csv::Error> {
+pub fn parse_1199(path: &Path) -> Result<Vec<ChaseDepositAccountRow>, csv::Error> {
     parse_csv(path)
 }
 
-pub(crate) fn parse_9055(path: &Path) -> Result<Vec<ChaseCreditCardAccountRow>, csv::Error> {
+pub fn parse_9055(path: &Path) -> Result<Vec<ChaseCreditCardAccountRow>, csv::Error> {
     parse_csv(path)
 }

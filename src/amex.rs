@@ -28,6 +28,6 @@ pub struct AmexGoldFormat {
     _category: String,
 }
 
-pub(crate) fn parse_gold(path: &Path) -> Result<Vec<AmexGoldFormat>, csv::Error> {
+pub fn parse_gold(path: &Path) -> Result<Vec<AmexGoldFormat>, csv::Error> {
     parse_csv(path)
 }
