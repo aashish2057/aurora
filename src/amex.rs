@@ -1,4 +1,6 @@
+use crate::csv_utils::parse_csv;
 use serde::Deserialize;
+use std::path::Path;
 
 #[derive(Debug, Deserialize)]
 pub struct AmexGoldFormat {
@@ -24,4 +26,8 @@ pub struct AmexGoldFormat {
     _reference: String,
     #[serde(rename = "Category")]
     _category: String,
+}
+
+pub(crate) fn parse_gold(path: &Path) -> Result<Vec<AmexGoldFormat>, csv::Error> {
+    parse_csv(path)
 }

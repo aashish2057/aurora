@@ -1,4 +1,6 @@
+use crate::csv_utils::parse_csv;
 use serde::Deserialize;
+use std::path::Path;
 
 #[derive(Debug, Deserialize)]
 pub struct VentureXFormat {
@@ -64,4 +66,24 @@ pub struct ParentsRainyDayFormat {
     _transaction_amount: f32,
     #[serde(rename = "Balance")]
     _balance: f32,
+}
+
+pub(crate) fn parse_venture_x(path: &Path) -> Result<Vec<VentureXFormat>, csv::Error> {
+    parse_csv(path)
+}
+
+pub(crate) fn parse_360_checking(path: &Path) -> Result<Vec<Checking360Format>, csv::Error> {
+    parse_csv(path)
+}
+
+pub(crate) fn parse_aashish_rainy_day(
+    path: &Path,
+) -> Result<Vec<AashishRainyDayFormat>, csv::Error> {
+    parse_csv(path)
+}
+
+pub(crate) fn parse_parents_rainy_day(
+    path: &Path,
+) -> Result<Vec<ParentsRainyDayFormat>, csv::Error> {
+    parse_csv(path)
 }

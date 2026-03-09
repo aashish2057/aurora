@@ -1,4 +1,6 @@
+use crate::csv_utils::parse_csv;
 use serde::Deserialize;
+use std::path::Path;
 
 #[derive(Debug, Deserialize)]
 pub struct Chase1199Format {
@@ -34,4 +36,12 @@ pub struct Chase9055Format {
     _amount: f32,
     #[serde(rename = "Memo")]
     _memo: Option<String>,
+}
+
+pub(crate) fn parse_1199(path: &Path) -> Result<Vec<Chase1199Format>, csv::Error> {
+    parse_csv(path)
+}
+
+pub(crate) fn parse_9055(path: &Path) -> Result<Vec<Chase9055Format>, csv::Error> {
+    parse_csv(path)
 }
