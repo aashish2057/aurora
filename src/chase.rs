@@ -3,7 +3,7 @@ use serde::Deserialize;
 use std::path::Path;
 
 #[derive(Debug, Deserialize)]
-pub struct Chase1199Format {
+pub struct ChaseDepositAccountRow {
     #[serde(rename = "Details")]
     _details: String,
     #[serde(rename = "Posting Date")]
@@ -21,7 +21,7 @@ pub struct Chase1199Format {
 }
 
 #[derive(Debug, Deserialize)]
-pub struct Chase9055Format {
+pub struct ChaseCreditCardAccountRow {
     #[serde(rename = "Transaction Date")]
     _transaction_date: String,
     #[serde(rename = "Post Date")]
@@ -38,10 +38,10 @@ pub struct Chase9055Format {
     _memo: Option<String>,
 }
 
-pub(crate) fn parse_1199(path: &Path) -> Result<Vec<Chase1199Format>, csv::Error> {
+pub(crate) fn parse_1199(path: &Path) -> Result<Vec<ChaseDepositAccountRow>, csv::Error> {
     parse_csv(path)
 }
 
-pub(crate) fn parse_9055(path: &Path) -> Result<Vec<Chase9055Format>, csv::Error> {
+pub(crate) fn parse_9055(path: &Path) -> Result<Vec<ChaseCreditCardAccountRow>, csv::Error> {
     parse_csv(path)
 }
