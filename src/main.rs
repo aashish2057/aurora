@@ -2,6 +2,7 @@ mod amex;
 mod capital_one;
 mod chase;
 mod csv_utils;
+mod transaction;
 
 use std::{fmt::Debug, path::Path};
 
