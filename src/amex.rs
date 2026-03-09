@@ -1,4 +1,5 @@
 use crate::csv_utils::parse_csv;
+use crate::transaction::{Account, AmexAccount, Transaction};
 use serde::Deserialize;
 use std::path::Path;
 
@@ -28,6 +29,22 @@ pub struct AmexGoldFormat {
     _category: String,
 }
 
-pub fn parse_gold(path: &Path) -> Result<Vec<AmexGoldFormat>, csv::Error> {
-    parse_csv(path)
+impl From<AmexGoldFormat> for Transaction {
+    fn from(row: AmexGoldFormat) -> Self {
+        Transaction {
+            date: row._date,
+            account: Account::Amex(AmexAccount::Gold),
+            description: row._description,
+            category: row._category,
+            amount: row._amount,
+        }
+    }
+}
+
+pub fn parse_gold(path: &Path) -> Result<Vec<Transaction>, csv::Error> {
+    parse_csv::<AmexGoldFormat>(path).map(|rows| {
+        rows.into_iter()
+            .map(Transaction::from)
+            .collect::<Vec<Transaction>>()
+    })
 }

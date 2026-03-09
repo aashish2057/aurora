@@ -1,4 +1,5 @@
 use crate::csv_utils::parse_csv;
+use crate::transaction::{Account, ChaseAccount, Transaction};
 use serde::Deserialize;
 use std::path::Path;
 
@@ -38,10 +39,42 @@ pub struct ChaseCreditCardAccountRow {
     _memo: Option<String>,
 }
 
-pub fn parse_1199(path: &Path) -> Result<Vec<ChaseDepositAccountRow>, csv::Error> {
-    parse_csv(path)
+impl From<ChaseDepositAccountRow> for Transaction {
+    fn from(row: ChaseDepositAccountRow) -> Self {
+        Transaction {
+            date: row._posting_date,
+            account: Account::Chase(ChaseAccount::Deposit1199),
+            description: row._description,
+            category: String::new(),
+            amount: row._amount,
+        }
+    }
 }
 
-pub fn parse_9055(path: &Path) -> Result<Vec<ChaseCreditCardAccountRow>, csv::Error> {
-    parse_csv(path)
+impl From<ChaseCreditCardAccountRow> for Transaction {
+    fn from(row: ChaseCreditCardAccountRow) -> Self {
+        Transaction {
+            date: row._transaction_date,
+            account: Account::Chase(ChaseAccount::CreditCard9055),
+            description: row._description,
+            category: row._category.unwrap_or_default(),
+            amount: row._amount,
+        }
+    }
+}
+
+pub fn parse_1199(path: &Path) -> Result<Vec<Transaction>, csv::Error> {
+    parse_csv::<ChaseDepositAccountRow>(path).map(|rows| {
+        rows.into_iter()
+            .map(Transaction::from)
+            .collect::<Vec<Transaction>>()
+    })
+}
+
+pub fn parse_9055(path: &Path) -> Result<Vec<Transaction>, csv::Error> {
+    parse_csv::<ChaseCreditCardAccountRow>(path).map(|rows| {
+        rows.into_iter()
+            .map(Transaction::from)
+            .collect::<Vec<Transaction>>()
+    })
 }

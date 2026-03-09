@@ -49,6 +49,29 @@ pub struct CapitalOneDepositAccountRow {
     _balance: f32,
 }
 
+impl CapitalOneDepositAccountRow {
+    fn into_transaction(self, account: CapitalOneAccount) -> Transaction {
+        Transaction {
+            date: self._transaction_date,
+            account: Account::CapitalOne(account),
+            description: self._transaction_description,
+            category: String::new(),
+            amount: self._transaction_amount,
+        }
+    }
+}
+
+fn parse_deposit_account(
+    path: &Path,
+    account: CapitalOneAccount,
+) -> Result<Vec<Transaction>, csv::Error> {
+    parse_csv::<CapitalOneDepositAccountRow>(path).map(|rows| {
+        rows.into_iter()
+            .map(|row| row.into_transaction(account.clone()))
+            .collect::<Vec<Transaction>>()
+    })
+}
+
 pub fn parse_venture_x(path: &Path) -> Result<Vec<Transaction>, csv::Error> {
     parse_csv::<CapitalOneCreditCardAccountRow>(path).map(|rows| {
         rows.into_iter()
@@ -57,18 +80,14 @@ pub fn parse_venture_x(path: &Path) -> Result<Vec<Transaction>, csv::Error> {
     })
 }
 
-pub fn parse_360_checking(path: &Path) -> Result<Vec<CapitalOneDepositAccountRow>, csv::Error> {
-    parse_csv(path)
+pub fn parse_360_checking(path: &Path) -> Result<Vec<Transaction>, csv::Error> {
+    parse_deposit_account(path, CapitalOneAccount::Checking360)
 }
 
-pub fn parse_aashish_rainy_day(
-    path: &Path,
-) -> Result<Vec<CapitalOneDepositAccountRow>, csv::Error> {
-    parse_csv(path)
+pub fn parse_aashish_rainy_day(path: &Path) -> Result<Vec<Transaction>, csv::Error> {
+    parse_deposit_account(path, CapitalOneAccount::AashishRainyDay)
 }
 
-pub fn parse_parents_rainy_day(
-    path: &Path,
-) -> Result<Vec<CapitalOneDepositAccountRow>, csv::Error> {
-    parse_csv(path)
+pub fn parse_parents_rainy_day(path: &Path) -> Result<Vec<Transaction>, csv::Error> {
+    parse_deposit_account(path, CapitalOneAccount::ParentsRainyDay)
 }
